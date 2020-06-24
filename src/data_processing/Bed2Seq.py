@@ -7,6 +7,7 @@ __license__ = "GNU GPLv3"
 
 import os
 import glob
+import json
 import numpy as np
 import torch
 import argparse
@@ -83,17 +84,22 @@ def fasta2seq(OutDir):
     test_fasta = os.path.join(OutDir, 'test.fasta')
     train_seq = open(os.path.join(OutDir, 'train.seq'), 'w')
     test_seq = open(os.path.join(OutDir, 'test.seq'), 'w')
+    num_train = 0
+    num_test = 0
 
     for record in SeqIO.parse(train_fasta, 'fasta'):
+        num_train += 1
         id = record.id
         seq = str(record.seq)
         train_seq.write(id + '\t' + seq + '\n')
 
     for record in SeqIO.parse(test_fasta, 'fasta'):
+        num_test += 1 
         id = record.id
         seq = str(record.seq)
         test_seq.write(id + '\t' + seq + '\n')
-    return 
+    
+    return num_train, num_test
 
 if __name__ == '__main__':
     print('------------Starting Bed2Seq------------' + '\n')
@@ -114,6 +120,8 @@ if __name__ == '__main__':
         os.system('mkdir ' + os.path.join(args.OutDir,''))
     else:
         pass
+    MetaFile = open(os.path.join(args.OutDir, 'MetaData.txt'), 'w')
+    
     print('------------Checking input BED directory------------')
     print('Input bed directory: ' + args.BedDir + '\n')
     bed_paths, feat_map = scan_input_dir(os.path.join(args.BedDir, ''))
@@ -156,9 +164,18 @@ if __name__ == '__main__':
     bed2fasta(OutDir=os.path.join(args.OutDir, ''), tools_path=os.path.join(args.ToolDir, ''))
     print('Writing train.fasta')
     print('Writing test.fasta')
-    fasta2seq(OutDir=os.path.join(args.OutDir, ''))
+    num_train, num_test = fasta2seq(OutDir=os.path.join(args.OutDir, ''))
     print('Writing train.seq')
     print('Writing test.seq')
+    print('Finished')
+
+    print("------------Writing Meta data------------")
+    MetaFile.write('Input bed directory: ' + args.BedDir + '\n')
+    MetaFile.write('Number of BED files: ' + str(len(bed_paths)) + '\n')
+    MetaFile.write('BED file names: ' + ' '.join(feat_map.keys()) + '\n')
+    MetaFile.write('Number of train sequences: ' + str(num_train)+ '\n')
+    MetaFile.write('Number of test sequences: ' + str(num_test) + '\n')
+    torch.save(feat_map, os.path.join(args.OutDir, 'FeatMap.pt'))
     print('Finished')
 
     print("------------Clean Up------------")
