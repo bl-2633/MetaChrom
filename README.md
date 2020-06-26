@@ -6,16 +6,16 @@ Ben Lai, Sheng Qian, Xin He, Jinbo Xu
 **MetaChrom is a transfer learning framework that takes advantage of both an extensive compendium of publicly available chromatin profiles data, and epigenomic profiles of cell types related to specific phenotypes of interest. It's capable of predicting the genomic variant effect on epigenomic profiles with single-nucleotide resolution. Please see paper for details.**
 
 ![Image of MetaChrom](https://github.com/bl-2633/MetaChrom/blob/master/figures/MetaChrom.jpg)
-*(A)Overall architecture of MetaChrom. The input sequence is fed into both the meta-feature extractor and the ResNet sequence encoder. Their outputs are then concatenated for the prediction of epigenomic profiles. (B)Pipeline for predicting variant effect on sequence epignomic profile.*
+*(A)Overall architecture of MetaChrom. The input sequence is fed into both the meta-feature extractor and the ResNet sequence encoder. Their outputs are then concatenated for the prediction of epigenomic profiles. (B)Pipeline for predicting variant effects on sequence epigenomic profile.*
 
 ## Requirment
 Training/Testing models: PyTorch >= 1.4  
 
-For data preperation, please refer to the coorespoding sections below.
-## Data preperation
-Pre-trained models and processed data for demo can be downloaded [[here]]()  
+For data preparation, please refer to the corresponding sections below.
+## Data preparation
+Pre-trained models and processed data for the demo can be downloaded [[here]]()  
 
-To preperly run the demo notebook, use the following directory structure  
+To properly run the demo notebook, use the following directory structure.  
 ```
 MetaChrom/
 │   ├── data/
