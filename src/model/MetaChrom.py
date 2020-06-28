@@ -12,9 +12,8 @@ import numpy as np
 from .ResNet import ResMod
 from .MetaFeat import MetaFeat
 
-
 class MetaChrom(torch.nn.Module):
-    def __init__(self, num_target, base_path):
+    def __init__(self, num_target, load_base = False, base_path = None):
         super(MetaChrom, self).__init__()
         self.base_path = base_path
         self.classifier = nn.Sequential(
@@ -24,9 +23,10 @@ class MetaChrom(torch.nn.Module):
                 nn.Sigmoid())
 
         self.base_model = MetaFeat(919)
-        device = torch.device('cpu')
-        check_point = torch.load(self.base_path, map_location =device)
-        self.base_model.load_state_dict(check_point['state_dict'])
+        if load_base:
+            device = torch.device('cpu')
+            check_point = torch.load(self.base_path, map_location =device)
+            self.base_model.load_state_dict(check_point['state_dict'])
         self.seq_model = ResMod(num_target=num_target)
 
     def forward(self,x):
@@ -35,4 +35,3 @@ class MetaChrom(torch.nn.Module):
         feat_cat =  torch.cat((feat, out), 1)
         out = self.classifier(feat_cat)
         return out
-

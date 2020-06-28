@@ -10,9 +10,6 @@ import numpy as np
 import torch
 from torch.utils import data as D
 
-
-
-
 def seq2onehot(seq):
     window_size = 1000
     matrix = np.zeros(shape = (window_size, 4), dtype = np.uint8)
@@ -27,30 +24,33 @@ def seq2onehot(seq):
             matrix[i][3] = 1
         else:
             continue
-
     return matrix
 
-
 class seq_data(D.Dataset):
-    def __init__(self, seq_path, label_path):
+    def __init__(self, seq_path, training_mode = False ,label_path = None):
         self.seq_path = seq_path
         self.seq_list = []
-        self.label_dict = torch.load(label_path)
+        self.training_mode = training_mode
+        if self.training_mode:
+            self.label_dict = torch.load(label_path)
 
         for line in open(self.seq_path, 'r'):
             line = line.split('\t')
             self.seq_list.append((line[0], line[1]))
         self.len = len(self.seq_list)
-    
+
     def __getitem__(self, index):
         sample = self.seq_list[index]
         seq = sample[1]
         id = sample[0]
-        label = self.label_dict[id]
         oh_seq = seq2onehot(seq)
         oh_seq = torch.from_numpy(oh_seq.T).float()
-        label = torch.from_numpy(label).float()
-        return oh_seq, label
+        if self.training_mode:
+            label = self.label_dict[id]
+            label = torch.from_numpy(label).float()
+            return id, oh_seq, label
+        else:
+            return id, oh_seq
 
     def __len__(self):
         return(self.len)
@@ -71,7 +71,7 @@ class SNP_data(D.Dataset):
         id = seqs[0]
         ref_seq = torch.from_numpy(seq2onehot(ref_seq).T).float()
         alt_seq = torch.from_numpy(seq2onehot(alt_seq).T).float()
-        return ref_seq, alt_seq, id
+        return id, ref_seq, alt_seq
 
     def __len__(self):
         return self.len

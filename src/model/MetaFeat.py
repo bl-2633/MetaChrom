@@ -37,11 +37,7 @@ class MetaFeat(torch.nn.Module):
                 nn.MaxPool1d(kernel_size = self.pool_kernel,stride=self.pool_kernel),
                 nn.Dropout(p=0.5)
                 )
-        reduced_by = self.conv_kernel - 1
-        self.pool_kernel = float(self.pool_kernel)
         self.n_channels = 13
-
-
         self.classifier = nn.Sequential(
                 nn.Linear(960 * self.n_channels, num_target),
                 nn.ReLU(inplace=True),
