@@ -55,8 +55,15 @@ python3 Bed2Seq.py --BedDir <BedDir> --OutDir <OutDir> --RefGenome <binned refer
 ```
 
 \*\*\*\* Output \*\*\*\*  
-Three files will be produced by this program. labels.pt is a serialized dictionary contains the label of each sequence in train.seq and test.seq  
-.seq file is a TSV with 2 fields(id, seq) each id is mapped to a key in labels.pt readable by data_loader  
+Five files will be produced by this program.  
+```
+labels.pt   : serialized dictionary contains the label of each sequence in train.seq and test.seq  
+train.seq   : a TSV file contains training sequences with 2 fields(id, seq) each id is mapped to a key in labels.pt 
+test.seq    : a TSV file contains test sequences with 2 fields(id, seq) each id is mapped to a key in labels.pt  
+FeatMap.pt  : serialized dictionary contains the mapping if label index to the corresponding BED file
+MetaData.txt: meta information of the generated data 
+```
+The default split of train/test sequences are based on chromosome location, all sequences located at chromosome 7 and 8 are in the test set.  
 
 ### Preparing variant data from rsid or vcf files  
 **Requirment:**    
@@ -86,10 +93,55 @@ A TSV seq file will be generated with three fields(id, ref_seq, alt_seq) readabl
 
 ## Testing/Inference
 
+We provide two inference scripts infer.py and infer_var.py for inferring sequence epigenomic profile and genomic variant effects. 
+
+### infer.py
+Inference script for sequence epigenomic profile 
+
+USAGE:
+```
+python3 infer.py --Model <trained MetaChrom model>  --InputFile <input sequence file> --OutDir <Output directory>
+                 --NumTarget <number of targets of the MetaChrom model>
+```
+\*\*\*\* Arguments \*\*\*\*  
+```
+--Model     : Path to the trained MetaChrom model for inference  
+--InputFile : Path to the .seq file contains sequences for inference    
+--OutDir    : Output directory, where the result will be stored  
+--NumTarget : Number of target of --model 
+[optional arguments]
+--Device    : CUDA device for inference. default:0
+--BatchSize : Size of minibatch for --model. default:256
+```
+\*\*\*\* Output \*\*\*\*  
+A serialized dictionary {id : predicted_profile} result.pt will be stored at OutDir
+
+### infer_var.py
+Inference script for variant effects 
+
+USAGE:
+```
+python3 infer_var.py --Model <trained MetaChrom model>  --InputFile <input sequence file> --OutDir <Output directory>
+                 --NumTarget <number of targets of the MetaChrom model>
+```
+\*\*\*\* Arguments \*\*\*\*  
+```
+--Model     : Path to the trained MetaChrom model for inference  
+--InputFile : Path to the SNP .seq file contains sequences for inference     
+--OutDir    : Output directory, where the result will be stored  
+--NumTarget : Number of target of --model 
+[optional arguments]
+--Device    : CUDA device for inference. default:0
+--BatchSize : Size of minibatch for --model. default:256
+```
+\*\*\*\* Output \*\*\*\*  
+A serialized dictionary {id: {ref_prob: predicted_ref_profile, alt_prob: predicted_ref_profile, abs_diff: absolute_difference} } result.pt will be stored at OutDir
+
 ## Training
+To train your own MetaChrom model, first prepare the the training data using Bed2Seq.py as described above, then train your model with train.py
+
 
 ## Citation
 
 ## License
 GNU GPLv3
-
