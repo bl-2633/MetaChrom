@@ -36,7 +36,7 @@ MetaChrom/
 *Bedtools* (https://bedtools.readthedocs.io/en/latest/)  
 *twoBitToFa* (http://hgdownload.soe.ucsc.edu/downloads.html#source_downloads)  
 *Biopython* (https://biopython.org/)  
-*The 2bit genome file corresponding to the coordinate of the bed files* (https://hgdownload.soe.ucsc.edu/downloads.html)**  
+*The 2bit genome file corresponding to the coordinate of the bed files* (https://hgdownload.soe.ucsc.edu/downloads.html)  
 
 ### Bed2Seq.py  
 Process a set of epigenomic files in BED format into sequence and feature labels  
@@ -46,7 +46,7 @@ USAGE:
 python3 Bed2Seq.py --BedDir <BedDir> --OutDir <OutDir> --RefGenome <binned reference genome>
                    --ToolDir <Tool directory>
 ```
-\*\*\*\* Required argument \*\*\*\*  
+\*\*\*\* Arguments \*\*\*\*  
 ```
 --BedDir    : Directory that contains the list of bed files to be processed  
 --OutDir    : Output directory, the program will generate labels as labels.pt and train/test sequence as train.seq and test.seq  
@@ -59,13 +59,13 @@ Three files will be produced by this program. labels.pt is a serialized dictiona
 .seq file is a TSV with 2 fields(id, seq) each id is mapped to a key in labels.pt readable by data_loader  
 
 ### Preparing variant data from rsid or vcf files  
-Requirment:  
-twoBitToFa (http://hgdownload.soe.ucsc.edu/downloads.html#source_downloads)  
-Biopython (https://biopython.org/)  
-myvariant (https://myvariant-py.readthedocs.io/en/latest/)  
-The 2bit genome file corresponding to the coordinate of the bed files (https://hgdownload.soe.ucsc.edu/downloads.html)  
+**Requirment:**    
+*twoBitToFa* (http://hgdownload.soe.ucsc.edu/downloads.html#source_downloads)  
+*Biopython* (https://biopython.org/)  
+*myvariant* (https://myvariant-py.readthedocs.io/en/latest/)  
+*The 2bit genome file corresponding to the coordinate of the bed files* (https://hgdownload.soe.ucsc.edu/downloads.html)  
 
-SNP2Seq.py  
+### SNP2Seq.py  
 Process a set of variants in vcf or rsid format  
 
 USAGE：
@@ -73,7 +73,7 @@ USAGE：
 python3 SNP2Seq.py --InputType [VCF, rsid]  --InputFile <input file> --OutDir <OutDir>
                    --ToolDir <Tool directory>
 ```
-\*\*\*\* Required argument \*\*\*\*  
+\*\*\*\* Arguments \*\*\*\*  
 ```
 --InputType : Type of SNP input, curretnly support SNV in vcf or rsid  
 --InputFile : Path to the input SNP file as VCF or a list of rsid  
@@ -83,6 +83,7 @@ python3 SNP2Seq.py --InputType [VCF, rsid]  --InputFile <input file> --OutDir <O
 \*\*\*\* Output \*\*\*\*  
 
 A TSV seq file will be generated with three fields(id, ref_seq, alt_seq) readable by data_loader.
+
 ## Testing/Inference
 
 ## Training
