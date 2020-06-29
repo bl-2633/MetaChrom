@@ -18,13 +18,21 @@ Pre-trained models and processed data for the demo can be downloaded [[here]]()
 To properly run the demo notebook, use the following directory structure.  
 ```
 MetaChrom/
+│   ├── tool/
+│   │     ├── bedtool2/
+│   │     ├── genome_bins.bed
+│   │     ├── twoBitToFa
+│   │     ├── hg38.2bit
 │   ├── data/
+│   │     ├── bed_files/
+│   │     │     ├── *.bed
 │   │     ├── seq_data/
 │   │     │     ├── train.seq
 │   │     │     ├── test.seq
 │   │     │     └── labels.pt
-│   │     ├── SNP_data/
-│   │     │     ├──test_SNP.seq
+│   │     ├── SNP_file/
+│   │     │     ├── rsid.txt
+│   │     │     ├── test.vcf
 │   ├── trained_model/
 │   │     ├── MetaChrom_models/
 │   │     │     ├── MetaFeat_ResNet
