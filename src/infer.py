@@ -25,7 +25,7 @@ def sequence_inference(model, loader, device):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Inferring epigenomic profiles from genomic sequence')
     parser.add_argument('--Model', help='Model to be used for inference', type=str)
-    parser.add_argument('--Device', help='CUDA device for inference', type = str, default=0)
+    parser.add_argument('--Device', help='CUDA device for inference', type = int, default=0)
     parser.add_argument('--BatchSize', help='Batch size for inference', type = str, default=256)
     parser.add_argument('--InputFile', help='Input seq file for inference', type=str)
     parser.add_argument('--OutDir', help='Output Directory to store result', type=str)
@@ -35,11 +35,11 @@ if __name__ == '__main__':
     if not os.path.isfile(args.InputFile):
         print('Error: Input file not found')
         exit(1)
-    
+
     if not os.path.isfile(args.Model):
         print('Error: Model not found')
         exit(1)
-    
+
     if args.OutDir == None:
         print('Error: Please specify the output directory')
     elif os.path.isdir(os.path.join(args.OutDir, '')):
@@ -62,7 +62,7 @@ if __name__ == '__main__':
     print('Device: ' + str(args.Device))
     print('Batch Size: ' + str(args.BatchSize))
     print('Result Directory: ' + args.OutDir)
-    
+
     print('------------Running Inference------------')
     result = sequence_inference(model=model, loader=seq_loader, device=args.Device)
     result_path = os.path.join(args.OutDir, 'results.pt')
