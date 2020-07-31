@@ -65,7 +65,7 @@ def rsid2bed(rsid_file, OutDir):
 def bed2seq(OutDir, ToolDir):
     bed_file = os.path.join(OutDir, 'tmp.bed')
     fasta_file = os.path.join(OutDir, 'tmp.fasta')
-    seq_file = open(os.path.join(OutDir, 'out.seq'), 'w')
+    seq_file = open(os.path.join(OutDir, 'out.vseq'), 'w')
     twobit_path = os.path.join(ToolDir, 'twoBitToFa')
     ref_path = os.path.join(ToolDir, 'hg38.2bit')
     window_size = 1000
