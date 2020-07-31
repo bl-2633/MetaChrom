@@ -21,7 +21,7 @@ def var_inference(model, loader, device):
         ref_prob = model(ref_seqs).data.cpu().numpy()
         alt_prob = model(alt_seqs).data.cpu().numpy()
         for i, seq_id in enumerate(ids):
-            result[seq_id] = {'ref_prob' : ref_prob[i], 'alt_prob': alt_prob[i], 
+            result[seq_id] = {'ref_prob' : ref_prob[i], 'alt_prob': alt_prob[i],
                               'abs_diff' : np.abs(ref_prob[i] - alt_prob[i])}
     return result
 
@@ -38,11 +38,11 @@ if __name__ == '__main__':
     if not os.path.isfile(args.InputFile):
         print('Error: Input file not found')
         exit(1)
-    
+
     if not os.path.isfile(args.Model):
         print('Error: Model not found')
         exit(1)
-    
+
     if args.OutDir == None:
         print('Error: Please specify the output directory')
     elif os.path.isdir(os.path.join(args.OutDir, '')):
@@ -65,12 +65,11 @@ if __name__ == '__main__':
     print('Device: ' + str(args.Device))
     print('Batch Size: ' + str(args.BatchSize))
     print('Result Directory: ' + args.OutDir)
-    
+
     print('------------Running Inference------------')
     result = var_inference(model=model, loader=seq_loader, device=args.Device)
 
     print('------------Saving Result------------')
     result_path = os.path.join(args.OutDir, 'results.pt')
-    print(result)
     print('Result saved at: ' + result_path)
     torch.save(result, result_path)

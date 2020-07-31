@@ -40,7 +40,7 @@ def rsid2bed(rsid_file, OutDir):
     window_size = 1000
     mv = myvariant.MyVariantInfo()
     rsid_file = open(rsid_file, 'r')
-    bed_file = open(os.path.join(OutDir, 'tmp.bed'), 'w') 
+    bed_file = open(os.path.join(OutDir, 'tmp.bed'), 'w')
     num_input = 0
     num_out = 0
     for line in rsid_file:
@@ -55,12 +55,12 @@ def rsid2bed(rsid_file, OutDir):
         ref = info['hits'][0]['vcf']['ref']
         alt = info['hits'][0]['vcf']['alt']
         id  = line.strip()
-        
+
         begin = int(int(pos) - window_size/2)
         end = int(int(pos) + window_size/2)
         bed_file.write('chr' + chrom + '\t' + str(begin) + '\t' + str(end) + '\t' +  id + ';' + ref + ';' + alt + '\n')
         num_out += 1
-    return num_input, num_out 
+    return num_input, num_out
 
 def bed2seq(OutDir, ToolDir):
     bed_file = os.path.join(OutDir, 'tmp.bed')
@@ -97,11 +97,11 @@ if __name__ == '__main__':
     if args.InputFile == None or not os.path.isfile(args.InputFile):
         print("Error: Input file not found")
         exit(1)
-    
+
     if args.InputType not in ['rsid', 'VCF']:
         print("Error: Input format not supported")
         exit(1)
-    
+
     if args.OutDir == None:
         print('Error: Please Provide the output directory')
         exit(1)
@@ -109,7 +109,7 @@ if __name__ == '__main__':
         os.system('mkdir ' + os.path.join(args.OutDir,''))
     else:
         pass
-    
+
     print('------------Checking required tools and files------------')
     if not os.path.isfile(os.path.join(args.ToolDir, 'bedtools2/bin/intersectBed')):
         print("Error: bedtool not found")
@@ -122,7 +122,7 @@ if __name__ == '__main__':
         exit(1)
     print('Finished')
 
-    
+
     print('------------Converting input to bed------------')
     if args.InputType == 'VCF':
         vcf2bed(vcf_file=args.InputFile, OutDir=args.OutDir)
@@ -143,5 +143,5 @@ if __name__ == '__main__':
     os.system(cmd)
     print('Finished')
 
-    
+
 
