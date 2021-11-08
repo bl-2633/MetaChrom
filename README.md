@@ -13,7 +13,7 @@ Training/Testing models: PyTorch >= 1.4
 
 For data preparation, please refer to the corresponding sections below.
 ## Data preparation
-Pre-trained models and processed data for the demo can be downloaded [[here]](blai.ttic.edu)  
+Pre-trained models and processed data for the demo can be downloaded [[here]](http://blai.ttic.edu)  
 
 To properly run the demo notebook, use the following directory structure.  
 ```
