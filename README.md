@@ -1,51 +1,35 @@
-# MetaChrom
-Ben Lai, Sheng Qian, Xin He, Jinbo Xu
-[[paper]]()
-[[bib]]()
+# Annotating functional effects of non-coding variants in neuropsychiatric cell types by Deep Transfer Learning(MetaChrom)
 
-**MetaChrom is a transfer learning framework that takes advantage of both an extensive compendium of publicly available chromatin profiles data, and epigenomic profiles of cell types related to specific phenotypes of interest. It's capable of predicting the genomic variant effect on epigenomic profiles with single-nucleotide resolution. Please see paper for details.**
+[[Paper]](https://www.biorxiv.org/content/10.1101/2021.02.02.429064v1.abstract)  
+[[WebServer]](https://metachrom.ttic.edu/)
 
+**This is the official code and data repository for the paper "Annotating functional effects of non-coding variants in neuropsychiatric cell types by Deep Transfer Learning".**
+<!---
 ![Image of MetaChrom](https://github.com/bl-2633/MetaChrom/blob/master/figures/MetaChrom.jpg)
 *(A)Overall architecture of MetaChrom. The input sequence is fed into both the meta-feature extractor and the ResNet sequence encoder. Their outputs are then concatenated for the prediction of epigenomic profiles. (B)Pipeline for predicting variant effects on sequence epigenomic profile.*
+-->
+## Usage
+Pre-trained models and data for the demo can be downloaded [[here]](http://blai.ttic.edu/data/metachrom/)  
+For examples and reults acompanying the paper, please see [[demos]]()  
+
+To train and build variant interpretation pipeline with MetaChrom consists of 4 consecutive steps:  
+[1. Preparing bed files of the cellular context of interests](#Prepare-BED-data-for-model-training)  
+[2. Prepare variant data in vcf format and process them](#Prepare-variant-files-for-evaluating-variant-effects)  
+[3. Train a MetaChrom model using the prepared data](#Training)   
+[4. Compute epigenomic profiles and variant effects](#Inference)  
 
 ## Requirment
 Training/Testing models: PyTorch >= 1.4  
 
-For data preparation, please refer to the corresponding sections below.
-## Data preparation
-Pre-trained models and processed data for the demo can be downloaded [[here]](http://blai.ttic.edu/data/metachrom/)  
-
-To properly run the demo notebook, use the following directory structure.  
-```
-MetaChrom/
-│   ├── tool/
-│   │     ├── bedtool2/
-│   │     ├── genome_bins.bed
-│   │     ├── twoBitToFa
-│   │     ├── hg38.2bit
-│   ├── data/
-│   │     ├── bed_files/
-│   │     │     ├── *.bed
-│   │     ├── seq_data/
-│   │     │     ├── train.seq
-│   │     │     ├── test.seq
-│   │     │     └── labels.pt
-│   │     ├── SNP_file/
-│   │     │     ├── rsid.txt
-│   │     │     ├── test.vcf
-│   ├── trained_model/
-│   │     ├── MetaChrom_models/
-│   │     │     ├── MetaFeat_ResNet
-│   │     ├── MetaFeat_model/
-│   │     │     ├── MetaFeat
-```
-### Preparing data from a set of BED files  
-**Requirements:**    
+For dataprepertaion the following external tools are needed:  
 *Bedtools* (https://bedtools.readthedocs.io/en/latest/)  
 *twoBitToFa* (http://hgdownload.soe.ucsc.edu/downloads.html#source_downloads)  
 *Biopython* (https://biopython.org/)  
 *The 2bit genome file corresponding to the coordinate of the bed files* (https://hgdownload.soe.ucsc.edu/downloads.html)  
+*myvariant* (https://myvariant-py.readthedocs.io/en/latest/)   
 
+## Prepare BED data for model training
+To prepare BED files in to sequence files, use ```Bed2Seq.py``` as described below, the output files can be loaded by ```data_loader.py``` 
 ### Bed2Seq.py  
 Process a set of epigenomic files in BED format into sequence and feature labels  
 
@@ -73,13 +57,8 @@ MetaData.txt: Meta information of the generated data
 ```
 The default split of train/test sequences are based on chromosome location; all sequences located at chromosome 7 and 8 are in the test set.  
 
-### Preparing variant data from rsid or vcf files  
-**Requirment:**    
-*twoBitToFa* (http://hgdownload.soe.ucsc.edu/downloads.html#source_downloads)  
-*Biopython* (https://biopython.org/)  
-*myvariant* (https://myvariant-py.readthedocs.io/en/latest/)  
-*The 2bit genome file corresponding to the coordinate of the bed files* (https://hgdownload.soe.ucsc.edu/downloads.html)  
-
+## Prepare variant files for evaluating variant effects
+To prepare the variant for effect assessment, use ```SNP2Seq.py``` in vcf format or rsid list. 
 ### SNP2Seq.py  
 Process a set of variants in vcf or rsid format  
 
@@ -101,7 +80,37 @@ One vseq files will be produced by this program.
 out.vseq : A TSV file contains the sequences correspond to the input SNPs with 3 fields (id, ref_seq, alt_seq)
 ```
 
-## Testing/Inference
+## Training
+To train your own MetaChrom model, use ```train.py``` with data prepared by ```Bed2Seq.py```
+
+### train.py
+Script for training a custom MetaChrom model  
+
+USAGE:
+```
+python3 train.py --DataDir <data directory>  --ModelOut <model output directory> --BaseModel <pre-trained MetaFeat model>
+                 --NumTarget <number of targets of the MetaChrom model>
+```
+\*\*\*\* Arguments \*\*\*\*  
+```
+--DataDir    : Directory that contains train.seq and labels.pt generated by Bed2Seq.py  
+--ModelOut   : Directory where the trained MetaChrom model will be saved    
+--BaseModel  : Path to the pre-trained MetaFeat model 
+--NumTarget  : Number of targets of --model 
+[optional arguments]
+--Device     : CUDA device for training. default:0
+--BatchSize  : Size of minibatch for --model. default:256
+--lr         : Learning rate for the Adam optimizer. default:1e-3
+--Epoch      : Number of Epoch for training. default:50
+```
+
+\*\*\*\* Output \*\*\*\*  
+```
+MetaFeat_ResNet : Trained MetaChrom model stoed at <OutDir>
+```
+
+
+## Inference
 
 We provide two inference scripts infer.py and infer_var.py for inferring sequence epigenomic profile and genomic variant effects. 
 
@@ -158,35 +167,40 @@ results.pt : A serialized dictionary contains the results
 }
 ```
 
-## Training
-To train your own MetaChrom model, first prepare the training data using Bed2Seq.py as described above, then train your model with train.py
-
-### train.py
-Script for training a custom MetaChrom model  
-
-USAGE:
+## MetaChrom trained in neural development context from out paper
+To properly run the notebooks, use the following directory structure.  
 ```
-python3 train.py --DataDir <data directory>  --ModelOut <model output directory> --BaseModel <pre-trained MetaFeat model>
-                 --NumTarget <number of targets of the MetaChrom model>
+MetaChrom/
+│   ├── tool/
+│   │     ├── bedtool2/
+│   │     ├── genome_bins.bed
+│   │     ├── twoBitToFa
+│   │     ├── hg38.2bit
+│   ├── data/
+│   │     ├── bed_files/
+│   │     │     ├── *.bed
+│   │     ├── seq_data/
+│   │     │     ├── train.seq
+│   │     │     ├── test.seq
+│   │     │     └── labels.pt
+│   │     ├── SNP_file/
+│   │     │     ├── rsid.txt
+│   │     │     ├── test.vcf
+│   ├── trained_model/
+│   │     ├── MetaChrom_models/
+│   │     │     ├── MetaFeat_ResNet
+│   │     ├── MetaFeat_model/
+│   │     │     ├── MetaFeat
 ```
-\*\*\*\* Arguments \*\*\*\*  
-```
---DataDir    : Directory that contains train.seq and labels.pt generated by Bed2Seq.py  
---ModelOut   : Directory where the trained MetaChrom model will be saved    
---BaseModel  : Path to the pre-trained MetaFeat model 
---NumTarget  : Number of targets of --model 
-[optional arguments]
---Device     : CUDA device for training. default:0
---BatchSize  : Size of minibatch for --model. default:256
---lr         : Learning rate for the Adam optimizer. default:1e-3
---Epoch      : Number of Epoch for training. default:50
-```
-
-\*\*\*\* Output \*\*\*\*  
-```
-MetaFeat_ResNet : Trained MetaChrom model stoed at <OutDir>
-```
-
+To train/test model deomonstrated in the paper, dolwnload the bed files and pre-trained MetaFeat model in it's corresponding directories.
+### Processing neural developmental data
+```python ./src/data_processing/ed2Seq.py --BedDir ./data/bed_files/ --OutDir ./data/seq_data/ --RefGenome ./tool/genome_bins.bed --ToolDir ./tool/```  
+The processed data will be deposited in ```./data/seq_data/``` and it's ready to be used for training.
+### Training MetaChrom
+```python ./src/train.py --DataDir ./data/seq_data/ --ModelOut ./trained_model/neural_MetaChrom/ --NumTarget 31 --BaseModel ./trained_models/MetaFeat_model/MetaFeat```  
+The trained model will be deposited in ```./trained_mdoel/neural_MetaChrom/```
+### Demos for epigenomic profile and variant effect inference
+We also provided a pre-trained  neural developmental MetaChrom model for running our program locally ,we also have a webserver for small batch inference at ```https://metachrom.ttic.edu/```.  There is also an example [jupyter notebook]() avaliable 
 
 ## Citation
 
