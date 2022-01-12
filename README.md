@@ -10,7 +10,7 @@
 -->
 ## Usage
 Pre-trained models and data for the demo can be downloaded [[here]](http://blai.ttic.edu/data/metachrom/)  
-For examples and reults acompanying the paper, please see [[demos]]()  
+For neural developmental MetaChrom models demonstraed in our paper please see the [section](#MetaChrom-trained-in-neural-development-context) below
 
 To train and build variant interpretation pipeline with MetaChrom consists of 4 consecutive steps:  
 [1. Preparing bed files of the cellular context of interests](#Prepare-BED-data-for-model-training)  
@@ -167,7 +167,7 @@ results.pt : A serialized dictionary contains the results
 }
 ```
 
-## MetaChrom trained in neural development context from out paper
+## MetaChrom trained in neural development context
 To properly run the notebooks, use the following directory structure.  
 ```
 MetaChrom/
@@ -200,7 +200,7 @@ The processed data will be deposited in ```./data/seq_data/``` and it's ready to
 ```python ./src/train.py --DataDir ./data/seq_data/ --ModelOut ./trained_model/neural_MetaChrom/ --NumTarget 31 --BaseModel ./trained_models/MetaFeat_model/MetaFeat```  
 The trained model will be deposited in ```./trained_mdoel/neural_MetaChrom/```
 ### Demos for epigenomic profile and variant effect inference
-We also provided a pre-trained  neural developmental MetaChrom model for running our program locally ,we also have a webserver for small batch inference at ```https://metachrom.ttic.edu/```.  There is also an example [jupyter notebook]() avaliable 
+We also provided a pre-trained neural developmental MetaChrom model for running our program locally. We also have a webserver for small batch inference at ```https://metachrom.ttic.edu/```.  There is an example [jupyter notebooks](https://github.com/bl-2633/MetaChrom/tree/master/Demo) available. 
 
 ## Citation
 
