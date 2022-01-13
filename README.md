@@ -188,7 +188,7 @@ MetaChrom/
 │   │     │     ├── test.vcf
 │   ├── trained_model/
 │   │     ├── MetaChrom_models/
-│   │     │     ├── MetaFeat_ResNet
+│   │     │     ├── MetaCrhom_model
 │   │     ├── MetaFeat_model/
 │   │     │     ├── MetaFeat
 ```
@@ -200,7 +200,7 @@ The processed data will be deposited in ```./data/seq_data/``` and it's ready to
 ```python ./src/train.py --DataDir ./data/seq_data/ --ModelOut ./trained_model/neural_MetaChrom/ --NumTarget 31 --BaseModel ./trained_models/MetaFeat_model/MetaFeat```  
 The trained model will be deposited in ```./trained_mdoel/neural_MetaChrom/```
 ### Demos for epigenomic profile and variant effect inference
-We also provided a pre-trained neural developmental MetaChrom model for running our program locally. We also have a webserver for small batch inference at ```https://metachrom.ttic.edu/```.  There is an example [jupyter notebooks](https://github.com/bl-2633/MetaChrom/tree/master/Demo) available. 
+We also provided a pre-trained neural developmental MetaChrom model for running our program locally. We also have a webserver for small batch inference at ```https://metachrom.ttic.edu/```.  We also provided [jupyter notebooks](https://github.com/bl-2633/MetaChrom/tree/master/Demo) examples for data processing and running sample inferences. 
 
 ## Citation
 
