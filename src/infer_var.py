@@ -70,6 +70,6 @@ if __name__ == '__main__':
     result = var_inference(model=model, loader=seq_loader, device=args.Device)
 
     print('------------Saving Result------------')
-    result_path = os.path.join(args.OutDir, 'results.pt')
+    result_path = os.path.join(args.OutDir, 'var_results.pt')
     print('Result saved at: ' + result_path)
     torch.save(result, result_path)
