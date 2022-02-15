@@ -10,7 +10,7 @@
 ## Usage
 A [web server](https://metachrom.ttic.edu/) is also avaliable for querying varaint effect in nerual-developmental environment.  
 Pre-trained models and data for the demo can be downloaded [[here]](zenodo)  
-For neural developmental MetaChrom models demonstraed in our paper please see the below.   
+For neural developmental MetaChrom models demonstraed in our paper please see [section](#Trainning-MetaChrom-for-neural-developmental-context) the below.   
 
 To train and build variant interpretation pipeline with MetaChrom consists of 4 consecutive steps:  
 [1. Preparing bed files of the cellular context of interests](#Prepare-BED-data-for-model-training)  
