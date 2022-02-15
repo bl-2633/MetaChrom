@@ -118,5 +118,5 @@ if __name__ == "__main__":
     print('Saving trained model at: ' + args.ModelOut)
 
     for epoch in range(1,args.Epoch):
-        model_path = args.ModelOut
+        model_path = args.ModelOut + 'MetaFeat_ResNet'
         train_model(train_params = train_param_dict, epoch = epoch ,model_path = model_path)
