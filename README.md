@@ -8,9 +8,9 @@
 *(A)Overall architecture of MetaChrom. The input sequence is fed into both the meta-feature extractor and the ResNet sequence encoder. Their outputs are then concatenated for the prediction of epigenomic profiles. (B)Pipeline for predicting variant effects on sequence epigenomic profile.*
 -->
 ## Usage
-Pre-trained models and data for the demo can be downloaded [[here]]()
-A [WebServer](https://metachrom.ttic.edu/) is also avaliable for querying varaint effect in nerual-developmental environment.
-For neural developmental MetaChrom models demonstraed in our paper please see the [section](#MetaChrom-trained-in-neural-development-context) below
+A [web server](https://metachrom.ttic.edu/) is also avaliable for querying varaint effect in nerual-developmental environment.  
+Pre-trained models and data for the demo can be downloaded [[here]](zenodo)  
+For neural developmental MetaChrom models demonstraed in our paper please see the below.   
 
 To train and build variant interpretation pipeline with MetaChrom consists of 4 consecutive steps:  
 [1. Preparing bed files of the cellular context of interests](#Prepare-BED-data-for-model-training)  
@@ -167,7 +167,7 @@ results.pt : A serialized dictionary contains the results
 }
 ```
 
-## MetaChrom trained in neural development context
+## Trainning MetaChrom for neural developmental context 
 To properly run the notebooks, use the following directory structure.  
 ```
 MetaChrom/
