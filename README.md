@@ -1,15 +1,15 @@
-# Annotating functional effects of non-coding variants in neuropsychiatric cell types by Deep Transfer Learning(MetaChrom)
+# MetaChrom: Annotating functional effects of non-coding variants by Deep Transfer Learning
 
-[[Paper]](https://www.biorxiv.org/content/10.1101/2021.02.02.429064v1.abstract)  
-[[WebServer]](https://metachrom.ttic.edu/)
+[[Paper]](https://www.biorxiv.org/content/10.1101/2021.02.02.429064v1.abstract) 
 
-**This is the official code and data repository for the paper "Annotating functional effects of non-coding variants in neuropsychiatric cell types by Deep Transfer Learning".**
+**MetaChrom is a deep-learning based method to predict the regulatory effects of non-coding genetic variants in the human genome. Using epigenomic data such as ATAC-seq or ChIP-seq, from cell/tissue types of interest, MetaChrom trains a convolutional neural network (CNN) model that predicts the function, e.g. whether a sequence is an open chromatin region, using only DNA sequences. It differs from other related tools, e.g. DeepSEA, in that MetaChrom can take advantage of a repository of epigenomic data from a large collection of cell/tissue types to improve the model accuracy. This is done via a transfer learning framework, where MetaChrom trains a model that learns important features from the repository, and then extracts these features from sequences in the target dataset. Those additional features would then be added to the CNN to predict output in the target data.**
 <!---
 ![Image of MetaChrom](https://github.com/bl-2633/MetaChrom/blob/master/figures/MetaChrom.jpg)
 *(A)Overall architecture of MetaChrom. The input sequence is fed into both the meta-feature extractor and the ResNet sequence encoder. Their outputs are then concatenated for the prediction of epigenomic profiles. (B)Pipeline for predicting variant effects on sequence epigenomic profile.*
 -->
 ## Usage
-Pre-trained models and data for the demo can be downloaded [[here]](http://blai.ttic.edu/data/metachrom/)  
+Pre-trained models and data for the demo can be downloaded [[here]]()
+A [WebServer](https://metachrom.ttic.edu/) is also avaliable for querying varaint effect in nerual-developmental environment.
 For neural developmental MetaChrom models demonstraed in our paper please see the [section](#MetaChrom-trained-in-neural-development-context) below
 
 To train and build variant interpretation pipeline with MetaChrom consists of 4 consecutive steps:  
