@@ -1,7 +1,7 @@
 # MetaChrom: Annotating functional effects of non-coding variants by Deep Transfer Learning
 
 [[Paper]](https://www.biorxiv.org/content/10.1101/2021.02.02.429064v1.abstract)  
-[![DOI](https://sandbox.zenodo.org/badge/DOI/10.5072/zenodo.1015595.svg)](https://sandbox.zenodo.org/record/1015595#.YgwB-_XMIix)  
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5851699.svg)](https://doi.org/10.5281/zenodo.5851699)  
 **MetaChrom is a deep-learning based method to predict the regulatory effects of non-coding genetic variants in the human genome. Using epigenomic data such as ATAC-seq or ChIP-seq, from cell/tissue types of interest, MetaChrom trains a convolutional neural network (CNN) model that predicts the function, e.g. whether a sequence is an open chromatin region, using only DNA sequences. It differs from other related tools, e.g. DeepSEA, in that MetaChrom can take advantage of a repository of epigenomic data from a large collection of cell/tissue types to improve the model accuracy. This is done via a transfer learning framework, where MetaChrom trains a model that learns important features from the repository, and then extracts these features from sequences in the target dataset. Those additional features would then be added to the CNN to predict output in the target data.**  
 <p align='center'>
 <img src="https://github.com/bl-2633/MetaChrom/blob/master/figures/FIg1B.jpg" width="400" height="500">
@@ -9,7 +9,7 @@
 
 ## Usage
 A [web server](https://metachrom.ttic.edu/) is also avaliable for querying varaint effect in nerual-developmental environment.  
-Pre-trained models and data for the demo can be downloaded [[here]](https://sandbox.zenodo.org/record/1015595#.YgwB-_XMIix)  
+Pre-trained models and data for the demo can be downloaded [[here]](https://doi.org/10.5281/zenodo.5851699)  
 For neural developmental MetaChrom models demonstraed in our paper please see this [section](#Trainning-MetaChrom-for-neural-developmental-context).   
 Details of ASC variant analysis performed in our paper can be found at [link](https://github.com/bl-2633/MetaChrom/tree/master/Demo/ASC_analysis)
 
